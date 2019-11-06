@@ -1,7 +1,7 @@
 <#    
       stanfrbd
       06/11/2019
-      Install and configure SNMP on a single server
+      Install and configure SNMP on a single server, locally with admin privileges
 #>
     
 Write-Host "Configuration de SNMP"
