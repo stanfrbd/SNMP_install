@@ -19,7 +19,7 @@ foreach ($server in $servers) {
     Write-Host "Install and configure: SNMP on $server"
     Install-WindowsFeature -computername $server -Credential $adminLogin -Name SNMP-Service -IncludeManagementTools <# If already installed, the status "noChangeNeeded will appear #>
         
-    <# create et install .reg file#>
+    <# create and install .reg file #>
     Invoke-Command -ComputerName $server -Credential $adminLogin { if (-not(Test-Path -Path "C:\temp")) { mkdir C:\temp } }
     Invoke-Command -ComputerName $server -Credential $adminLogin { Write-Output 'Windows Registry Editor Version 5.00
  
