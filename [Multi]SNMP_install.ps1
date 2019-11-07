@@ -4,7 +4,7 @@
       Install and configure SNMPv2 (default) on multi servers.
       REMEMBER: 
       The servers MUST be reachables. If not, you will get fatal errors. Same if OS are not Windows Server.
-      It will be a password prompt for each remote command. (Better for debbuging and know what you are doing).
+      It will be a password prompt for each remote command. (Better for debbuging and to know what you are doing).
       The public commnity will have READ-ONLY privileges.
       Replace 10.0.0.0 with your trusted IP address.
       You can change the Community Name but this is not recommanded.
