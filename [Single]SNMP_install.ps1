@@ -1,10 +1,13 @@
 <#    
       stanfrbd
       06/11/2019
-      Install and configure SNMP on a single server, locally with admin privileges
+      Install and configure SNMPv2 (default) on a single server, locally with admin privileges
+      The public commnity will have READ-ONLY privilegies
+      Replace 10.0.0.0 with your trusted IP address
+      You can change the Community Name but this is not recommanded
 #>
     
-Write-Host "Configuration de SNMP"
+Write-Host "Install and configure: SNMP"
 Install-WindowsFeature -Name "SNMP-Service" -IncludeManagementTools
         
 
@@ -15,12 +18,12 @@ Write-Output 'Windows Registry Editor Version 5.00
         "EnableAuthenticationTraps"=dword:00000000
          
         [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SNMP\Parameters\PermittedManagers]
-        "1"="10.80.3.250"
+        "1"="10.0.0.0"
          
         [-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SNMP\Parameters\TrapConfiguration\public]
          
         [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SNMP\Parameters\TrapConfiguration\public]
-        "1"="10.80.3.250"
+        "1"="10.0.0.0"
          
         [-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SNMP\Parameters\ValidCommunities]
          
