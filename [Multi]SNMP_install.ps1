@@ -1,22 +1,23 @@
 <#    
       stanfrbd
       06/11/2019
-      Install and configure SNMP on a multi servers
-      REMEMBER: the server must be reachable. If not, you will get errors.
-      It will be a password prompt for each remote command.
-      The public commnity will have READ-ONLY privilegies
-      Replace 10.0.0.0 with your trusted IP address
-      You can change the Community Name but this is not recommanded
+      Install and configure SNMPv2 (default) on multi servers.
+      REMEMBER: 
+      The servers MUST be reachables. If not, you will get fatal errors. Same if OS are not Windows Server.
+      It will be a password prompt for each remote command. (Better for debbuging and know what you are doing).
+      The public commnity will have READ-ONLY privileges.
+      Replace 10.0.0.0 with your trusted IP address.
+      You can change the Community Name but this is not recommanded.
+
 #>
+
 $adminLogin = "yourAdminLogin"
-$servers = "10.0.0.0", "10.0.0.0" <# enter others here #>
+$servers = "10.0.0.0", "10.0.0.0", "10.0.0.0" <# ... enter others here #>
 
 foreach ($server in $servers) {
-    <# Check if SNMP-Service is already installed
-    $check = Get-WindowsFeature -computername $server -Credential smedrano.admin -Name SNMP-Service, Failover-Clustering 
-    if (-not($check.installed)) { #>
+
     Write-Host "Install and configure: SNMP on $server"
-    Install-WindowsFeature -computername $server -Credential $adminLogin -Name SNMP-Service -IncludeManagementTools
+    Install-WindowsFeature -computername $server -Credential $adminLogin -Name SNMP-Service -IncludeManagementTools <# If already installed, the status "noChangeNeeded will appear #>
         
     <# create et install .reg file#>
     Invoke-Command -ComputerName $server -Credential $adminLogin { if (-not(Test-Path -Path "C:\temp")) { mkdir C:\temp } }
@@ -42,7 +43,4 @@ foreach ($server in $servers) {
 
     Invoke-Command -ComputerName $server -Credential $adminLogin { Restart-Service SNMP }
     Invoke-Command -ComputerName $server -Credential $adminLogin { if ((Get-Service -Name SNMP).Status -eq "Running") { Write-Host "Install success" } else { Write-Host "SNMP is not running - try to troubleshoot." } }
-
-        
-}
 }

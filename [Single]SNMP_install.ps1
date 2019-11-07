@@ -1,14 +1,16 @@
 <#    
       stanfrbd
       06/11/2019
-      Install and configure SNMPv2 (default) on a single server, locally with admin privileges
-      The public commnity will have READ-ONLY privilegies
-      Replace 10.0.0.0 with your trusted IP address
-      You can change the Community Name but this is not recommanded
+      Install and configure SNMPv2 (default) on a single server, locally with admin privileges.
+      REMEMBER: the OS must be Windows Server.
+      The public commnity will have READ-ONLY privileges.
+      Replace 10.0.0.0 with your trusted IP address.
+      You can change the Community Name but this is not recommanded.
+
 #>
     
 Write-Host "Install and configure: SNMP"
-Install-WindowsFeature -Name "SNMP-Service" -IncludeManagementTools
+Install-WindowsFeature -Name "SNMP-Service" -IncludeManagementTools <# If already installed, the status "noChangeNeeded will appear #>
         
 
 if (-not(Test-Path -Path "C:\temp")) { mkdir "C:\temp" } 
@@ -35,5 +37,3 @@ reg import "C:\temp\config.reg"
 Restart-Service "SNMP" 
     
 if ((Get-Service -Name "SNMP").Status -eq "Running") { Write-Host "Install success" } else { Write-Host "SNMP is not running - try to troubleshoot." } 
-
-
